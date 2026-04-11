@@ -6,13 +6,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	// replace YOUR_USERNAME with your actual GitHub username
 	"github.com/SiddhantKashyap2k3/pulseboard/internal/db"
+	"github.com/SiddhantKashyap2k3/pulseboard/internal/handlers"
+	"github.com/SiddhantKashyap2k3/pulseboard/internal/middleware"
 )
 
 func main() {
-
-	// connect to the pulseboard database we just created in pgAdmin
+	// connect to database
 	database, err := db.New(db.Config{
 		Host:     "localhost",
 		Port:     5432,
@@ -21,21 +21,46 @@ func main() {
 		DBName:   "pulseboard",
 	})
 	if err != nil {
-		// if DB connection fails, no point starting the server
 		log.Fatal("Failed to connect to database:", err)
 	}
-
-	// when main() exits, cleanly close all DB connections
 	defer database.Close()
+
+	// create handler instances — passing the DB connection in
+	authHandler := &handlers.AuthHandler{DB: database}
 
 	router := gin.Default()
 
+	// health check route
 	router.GET("/health", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"status":  "ok",
 			"service": "pulseboard-api",
 		})
 	})
+
+	// auth routes grouped under /api/v1
+	// grouping keeps URLs organised and lets us version our API
+	v1 := router.Group("/api/v1")
+	{
+		auth := v1.Group("/auth")
+		{
+			auth.POST("/register", authHandler.Register) // POST /api/v1/auth/register
+			auth.POST("/login", authHandler.Login)       // New - Login route
+		}
+	}
+
+	// protected routes — JWT required
+	// middleware.AuthRequired() runs BEFORE every handler in this group
+	protected := v1.Group("")
+	protected.Use(middleware.AuthRequired())
+	{
+		// test route — returns the logged-in user's ID
+		// proves the middleware extracted user_id from the token
+		protected.GET("/me", func(ctx *gin.Context) {
+			userID := ctx.GetInt("user_id")
+			ctx.JSON(http.StatusOK, gin.H{"user_id": userID})
+		})
+	}
 
 	router.Run(":8080")
 }
