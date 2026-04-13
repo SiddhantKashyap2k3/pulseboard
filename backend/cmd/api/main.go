@@ -28,6 +28,9 @@ func main() {
 	// create handler instances — passing the DB connection in
 	authHandler := &handlers.AuthHandler{DB: database}
 
+	// create workspce handler instance - for DB conncetion not crete own DB connection but from here --> dependecy injection
+	workspaceHandler := &handlers.WorkspaceHandler{DB: database}
+
 	router := gin.Default()
 
 	// health check route
@@ -60,6 +63,11 @@ func main() {
 			userID := ctx.GetInt("user_id")
 			ctx.JSON(http.StatusOK, gin.H{"user_id": userID})
 		})
+
+		// Tell GIN when request hits workspaces run first create then list
+		// Flow --> Request-> AuthRequired middleware -> checks JWT -> sets user_id -> handler runs
+		protected.POST("/workspaces", workspaceHandler.Create)
+		protected.GET("/workspaces", workspaceHandler.List)
 	}
 
 	router.Run(":8080")

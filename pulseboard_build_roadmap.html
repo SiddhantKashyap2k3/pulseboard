@@ -1,0 +1,176 @@
+
+<style>
+.module { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; margin: 0 0 10px; display: flex; gap: 14px; align-items: flex-start; }
+.mod-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; flex-shrink: 0; margin-top: 1px; }
+.mod-body { flex: 1; }
+.mod-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 3px; }
+.mod-desc { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 6px; line-height: 1.5; }
+.tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; margin: 2px 2px 0 0; }
+.t-go { background:#E1F5EE; color:#085041; }
+.t-db { background:#EEEDFE; color:#3C3489; }
+.t-ui { background:#E6F1FB; color:#0C447C; }
+.t-kafka { background:#FAEEDA; color:#633806; }
+.t-k8s { background:#EAF3DE; color:#27500A; }
+.t-tf { background:#FAECE7; color:#712B13; }
+.t-ci { background:#EAF3DE; color:#27500A; }    
+.t-obs { background:#FAEEDA; color:#633806; }
+.section-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: .06em; margin: 1.2rem 0 8px; }
+.current { border: 1.5px solid var(--color-border-info); }
+.cur-badge { font-size: 11px; background: var(--color-background-info); color: var(--color-text-info); padding: 2px 8px; border-radius: 20px; margin-left: 8px; }
+</style>
+
+<div class="section-label">Module 1 — Project foundation</div>
+
+<div class="module current">
+  <div class="mod-num" style="background:#E1F5EE;color:#085041;">1</div>
+  <div class="mod-body">
+    <div class="mod-title">Go project setup + folder structure <span class="cur-badge">starting here</span></div>
+    <div class="mod-desc">What Go modules are, how the project is organized, why each folder exists. Writing your first main.go.</div>
+    <span class="tag t-go">Go modules</span><span class="tag t-go">go mod</span><span class="tag t-go">main.go</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#E1F5EE;color:#085041;">2</div>
+  <div class="mod-body">
+    <div class="mod-title">HTTP server with Gin</div>
+    <div class="mod-desc">What a web framework is, why Gin over net/http, writing your first route and handler.</div>
+    <span class="tag t-go">Gin</span><span class="tag t-go">handlers</span><span class="tag t-go">routing</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#E1F5EE;color:#085041;">3</div>
+  <div class="mod-body">
+    <div class="mod-title">PostgreSQL + connection pooling</div>
+    <div class="mod-desc">What a connection pool is, writing the DB layer, defining your first schema with migrations.</div>
+    <span class="tag t-db">PostgreSQL</span><span class="tag t-db">pgx</span><span class="tag t-db">migrations</span>
+  </div>
+</div>
+
+<div class="section-label">Module 2 — Auth + multi-tenancy</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#EEEDFE;color:#3C3489;">4</div>
+  <div class="mod-body">
+    <div class="mod-title">User registration + password hashing</div>
+    <div class="mod-desc">What bcrypt is and why we never store plain passwords. Building the register endpoint.</div>
+    <span class="tag t-db">bcrypt</span><span class="tag t-go">POST /register</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#EEEDFE;color:#3C3489;">5</div>
+  <div class="mod-body">
+    <div class="mod-title">JWT authentication</div>
+    <div class="mod-desc">What a JWT is, how tokens work, writing login + middleware that protects routes.</div>
+    <span class="tag t-db">JWT</span><span class="tag t-go">middleware</span><span class="tag t-go">POST /login</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#EEEDFE;color:#3C3489;">6</div>
+  <div class="mod-body">
+    <div class="mod-title">Multi-tenancy — workspaces + API keys</div>
+    <div class="mod-desc">How SaaS apps isolate data per customer. Building workspace model + generating API keys for event ingest.</div>
+    <span class="tag t-db">tenants</span><span class="tag t-go">API keys</span>
+  </div>
+</div>
+
+<div class="section-label">Module 3 — Event ingest pipeline</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#FAEEDA;color:#633806;">7</div>
+  <div class="mod-body">
+    <div class="mod-title">Event ingest REST endpoint</div>
+    <div class="mod-desc">The POST /ingest endpoint — receives events from any app, validates, stores raw in Postgres.</div>
+    <span class="tag t-go">POST /ingest</span><span class="tag t-db">events table</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#FAEEDA;color:#633806;">8</div>
+  <div class="mod-body">
+    <div class="mod-title">Kafka producer — publishing events</div>
+    <div class="mod-desc">What Kafka is, what a topic/producer/consumer is. Wiring the ingest endpoint to publish to Kafka.</div>
+    <span class="tag t-kafka">Kafka</span><span class="tag t-kafka">producer</span><span class="tag t-kafka">topics</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#FAEEDA;color:#633806;">9</div>
+  <div class="mod-body">
+    <div class="mod-title">Kafka consumer + aggregation worker</div>
+    <div class="mod-desc">Background Go worker that reads from Kafka, aggregates counts/metrics, writes to Redis.</div>
+    <span class="tag t-kafka">consumer</span><span class="tag t-kafka">Redis</span><span class="tag t-go">goroutines</span>
+  </div>
+</div>
+
+<div class="section-label">Module 4 — Real-time layer</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#E6F1FB;color:#0C447C;">10</div>
+  <div class="mod-body">
+    <div class="mod-title">WebSocket server</div>
+    <div class="mod-desc">What WebSockets are vs HTTP polling. Building the WS server that pushes live metrics to browsers.</div>
+    <span class="tag t-ui">WebSocket</span><span class="tag t-go">gorilla/ws</span>
+  </div>
+</div>
+
+<div class="section-label">Module 5 — Frontend</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#E6F1FB;color:#0C447C;">11</div>
+  <div class="mod-body">
+    <div class="mod-title">React dashboard UI</div>
+    <div class="mod-desc">Vite + React setup, connecting to WS, live charts with Recharts, auth flow.</div>
+    <span class="tag t-ui">React</span><span class="tag t-ui">Recharts</span><span class="tag t-ui">WebSocket client</span>
+  </div>
+</div>
+
+<div class="section-label">Module 6 — DevOps + CI/CD</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#EAF3DE;color:#27500A;">12</div>
+  <div class="mod-body">
+    <div class="mod-title">Dockerizing all services</div>
+    <div class="mod-desc">What a Dockerfile does line by line, multi-stage builds, docker-compose for local dev.</div>
+    <span class="tag t-k8s">Docker</span><span class="tag t-k8s">multi-stage</span><span class="tag t-k8s">compose</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#EAF3DE;color:#27500A;">13</div>
+  <div class="mod-body">
+    <div class="mod-title">Terraform — AWS infrastructure</div>
+    <div class="mod-desc">What IaC means, writing VPC + EKS + RDS modules, remote state setup.</div>
+    <span class="tag t-tf">Terraform</span><span class="tag t-tf">EKS</span><span class="tag t-tf">VPC</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#EAF3DE;color:#27500A;">14</div>
+  <div class="mod-body">
+    <div class="mod-title">Helm chart + Kubernetes deploy</div>
+    <div class="mod-desc">What Helm is, writing the chart, deploying all services to EKS with HPA.</div>
+    <span class="tag t-k8s">Helm</span><span class="tag t-k8s">HPA</span><span class="tag t-k8s">Deployments</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#EAF3DE;color:#27500A;">15</div>
+  <div class="mod-body">
+    <div class="mod-title">GitHub Actions CI/CD pipeline</div>
+    <div class="mod-desc">Writing the full 4-stage pipeline: test → build → staging → prod with manual gate.</div>
+    <span class="tag t-ci">GH Actions</span><span class="tag t-ci">ECR</span><span class="tag t-ci">Helm deploy</span>
+  </div>
+</div>
+
+<div class="module">
+  <div class="mod-num" style="background:#FAEEDA;color:#633806;">16</div>
+  <div class="mod-body">
+    <div class="mod-title">Prometheus + Grafana observability</div>
+    <div class="mod-desc">Instrumenting Go services with metrics, scraping with Prometheus, building Grafana dashboards.</div>
+    <span class="tag t-obs">Prometheus</span><span class="tag t-obs">Grafana</span><span class="tag t-obs">/metrics</span>
+  </div>
+</div>
